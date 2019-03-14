@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit {
 
   filteredProducts: IProduct[];
   products: IProduct[] = [];
+  errorMessage: string;
 
   constructor(private productService: ProductService) {
   }
@@ -32,8 +33,13 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe(
+      products => {
+        this.products = products,
+        this.filteredProducts = this.products;
+      },
+      error => this.errorMessage = <any>error
+    );
   }
 
   performFilter(filterBy: string): IProduct[] {
