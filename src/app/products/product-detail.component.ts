@@ -22,12 +22,9 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     let id = +this.route.snapshot.paramMap.get('id'); // + converts string to numeric
-
-    this.productService.getProducts().subscribe(
-      products => {
-        this.products = products.filter((product: IProduct) =>
-          product.productId === id),
-        this.product = this.products[0],
+    this.productService.getProduct(id).subscribe(
+      product => {
+        this.product = product,
         this.pageTitle += `: ${this.product.productName}`;
       },
       error => this.errorMessage = <any>error
